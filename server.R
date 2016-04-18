@@ -24,3 +24,5 @@ shinyServer(function(input, output) {
     head(datasetInput(), n = input$obs)
   })
 })
+
+#i konw it is ok
