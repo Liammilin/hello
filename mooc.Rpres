@@ -71,4 +71,7 @@ percent_map <- function(var, color, legend.title, min = 0, max = 100) {
 }
 ```
 
+The end
+=====
+*thank you*
 
