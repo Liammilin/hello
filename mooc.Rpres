@@ -1,0 +1,74 @@
+censse presenter
+========================================================
+author: liam  
+date: `r Sys.Date()`
+transition: rotate
+
+<small>
+School:Huazhong Agricultural University, Wuhan, China
+
+Major: information and Computing Science
+
+Name:Lin Mi
+</small>
+
+
+Introduction
+========================================================
+The software describes the population distribution in the United States.
+From this software, you can query the distribution of different races in the United states. For example, the population distribution of Caucasian population distribution, yellow, etc.
+
+The software also has a function is to query the different proportion of the population, through the "Range of interest". For example, query whites accounted for more than 50% of the population have what place.
+
+picture of software
+========================================================
+![alt text](1.png)
+![alt text](2.png)
+
+
+Code of the App
+========================================================
+there are three file in this project. ui.R, server.R and helper.R .
+the helper.R file can be used to draw a map. I  show the helper.R code
+```{r}
+# Note: percent map is designed to work with the counties data set
+# It may not work correctly with other data sets if their row order does 
+# not exactly match the order in which the maps package plots counties
+percent_map <- function(var, color, legend.title, min = 0, max = 100) {
+
+  # generate vector of fill colors for map
+  shades <- colorRampPalette(c("white", color))(100)
+  
+  # constrain gradient to percents that occur between min and max
+  var <- pmax(var, min)
+  var <- pmin(var, max)
+  percents <- as.integer(cut(var, 100, 
+    include.lowest = TRUE, ordered = TRUE))
+  fills <- shades[percents]
+
+  # plot choropleth map
+  map("county", fill = TRUE, col = fills, 
+    resolution = 0, lty = 0, projection = "polyconic", 
+    myborder = 0, mar = c(0,0,0,0))
+  
+  # overlay state borders
+  map("state", col = "white", fill = FALSE, add = TRUE,
+    lty = 1, lwd = 1, projection = "polyconic", 
+    myborder = 0, mar = c(0,0,0,0))
+  
+  # add a legend
+  inc <- (max - min) / 4
+  legend.text <- c(paste0(min, " % or less"),
+    paste0(min + inc, " %"),
+    paste0(min + 2 * inc, " %"),
+    paste0(min + 3 * inc, " %"),
+    paste0(max, " % or more"))
+  
+  legend("bottomleft", 
+    legend = legend.text, 
+    fill = shades[c(1, 25, 50, 75, 100)], 
+    title = legend.title)
+}
+```
+
+
